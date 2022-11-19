@@ -1,0 +1,44 @@
+.post_Detail{
+    margin: 2em auto;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    border-radius: 8px;
+    box-shadow: 0 3px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.post_container{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 5px;
+}
+
+.post_Detail h2{
+    margin-bottom: 0.4rem;
+}
+
+.post_Detail .createdBy{
+    font-weight: bold;
+}
+
+.post_Detail img{
+    max-width: 600px;
+    width: 100%;
+    max-height: 600px ;
+    margin: auto;
+}
+
+.post_Detail .tags{
+    display: inline-block;
+    color: rgb(63, 25, 94);
+    margin-bottom: 1em;
+}
+
+
+
+
+
+
+

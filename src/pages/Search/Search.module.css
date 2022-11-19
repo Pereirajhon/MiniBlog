@@ -1,0 +1,12 @@
+.search_container{
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    justify-content: center;
+}
+
+.post_result{
+    width: 600px;
+    gap: 1em;
+}

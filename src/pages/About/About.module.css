@@ -1,0 +1,16 @@
+.about{
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.about p{
+    color: #aaa;
+}
+
+.about a{
+    display: block;
+}

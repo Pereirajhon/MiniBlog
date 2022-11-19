@@ -1,0 +1,244 @@
+/* 
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family:"Montserrat";
+  background-color: #f3f7f9;
+}
+
+
+
+nav button, a{
+  color: #000;
+  text-decoration: none;
+  background-color: transparent;
+  transition: 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+nav:hover,
+a:hover{
+  color:#bbb;
+}
+
+/*------ Form style -----*/ /*
+
+form{
+  background-color: white;
+  max-width: 40%;
+  margin: 15px auto;
+  padding: 1.2rem;
+  display: flex;
+  gap: 1.4rem;
+  flex-direction: column;
+  box-shadow: 0px 2px 5px rgb(180, 178, 178);
+  border-radius: 6px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  gap: 2px;
+}
+
+label span{
+  font-weight: bolder;
+  text-align: left;
+}
+
+input:focus,
+textarea:focus{
+  outline: none;
+}
+
+input::placeholder{
+  color: #AAA;
+}
+
+input,
+textarea{
+
+  height: 30px;
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid rgb(71, 71, 71);
+  background-color: transparent;
+}
+
+.btn{
+  background-color: #1a8918;
+  color: #ffffff;
+  border: none;
+  max-width: 200px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.btn.btn-dark{
+  background-color: #000;
+  border-radius: 0; 
+}
+
+.btn.btn-outline{
+  background-color: transparent;
+  border-radius: 0;
+  color: #000;
+  border: 1px solid #000;
+  padding: 7px 30px;
+}
+
+.btn:hover{
+  background-color: #146d13;
+  color: #fff;
+}
+
+.btn.btn-danger:hover{
+  background-color: #DC3545;
+}
+
+button[disabled]{
+  background-color: #aaa;
+}
+
+.container .error{
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px ;
+  padding: 5px;
+}
+*/ 
+body {
+  background-color: #fafafa;
+  padding: 0;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+p, span{
+  word-wrap: break-word;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-family: "Montserrat", sans-serif;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+p{
+  word-break:normal;
+}
+
+a,
+nav button {
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  color: #000;
+  transition: 0.4s;
+  font-size: 1em;
+  cursor: pointer;
+  font-family: "Montserrat", sans-seri;
+}
+
+a:hover,
+nav button:hover {
+  color: #bbb;
+}
+
+/* form styles */
+form {
+  max-width: 44%;
+  margin: auto;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+label span {
+  margin-bottom: 0.3em;
+  font-weight: bold;
+  text-align: left;
+}
+
+input, textarea{
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 0.9em 0em;
+  background-color: transparent;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
+}
+
+.btn {
+  background-color: #1a8918;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 120px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1em;
+}
+
+.btn.btn-dark {
+  background-color: #000;
+  border-radius: 0;
+}
+
+.btn.btn-outline {
+  background-color: transparent;
+  border-radius: 0;
+  color: #000;
+  border: 1px solid #000;
+  padding: 7px 30px;
+}
+
+.btn:hover {
+  background-color: #0f730c;
+  color: #fff;
+}
+
+.btn.btn-outline:hover {
+  background-color: #000;
+}
+
+.btn.btn-danger:hover {
+  background-color: #dc3545;
+}
+
+button[disabled] {
+  background-color: #aaa;
+}
+
+.container .error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 5px;
+  border-radius: 5px;
+}
+
