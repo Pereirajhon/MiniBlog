@@ -1,4 +1,3 @@
-
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -12,9 +11,6 @@ import {useState, useEffect} from "react"
 export const useAuthentication = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(null);
-
-    //cleanUp
-    //deal with memory leak
 
     const [cancelled, setCancelled] = useState(false)
 
@@ -40,6 +36,7 @@ export const useAuthentication = () => {
 
             setLoading(false) 
             return user
+            
         } catch(e){
 
             console.log(e.message)

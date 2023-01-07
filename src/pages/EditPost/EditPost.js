@@ -44,11 +44,9 @@ const EditPost = () => {
       setFormError("A imagem precisa ser uma URL.");
     }
 
-    // create tags array
-
     const tagsArray = tags.split(', ').map((tag) => tag.trim().toLowerCase());
 
-    // check values
+
     if (!title || !image || !tags || !body) {
       setFormError("Por favor, preencha todos os campos!");
     }

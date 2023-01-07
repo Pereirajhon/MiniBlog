@@ -4,8 +4,7 @@ import { useFetchDocument } from "../../Hook/useFetchDocument";
 
 const Post = () => {
     const {id} = useParams();
-    const {document:post, loading} = useFetchDocument("posts", id) 
-
+    const {document: post, loading} = useFetchDocument("posts", id) 
 
   return (
     <div className={styles.post_container}>

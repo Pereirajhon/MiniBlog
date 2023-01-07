@@ -1,7 +1,7 @@
 import { db } from "../firebase/config";
 import {deleteDoc,doc } from "firebase/firestore";
 
-import { useEffect, useState,useReducer} from "react"
+import {useState, useReducer} from "react"
 
 const initialState = {
     loading: null,
@@ -49,10 +49,6 @@ export const useDeleteDocument = (docCollection) => {
             })
         }
     }
-
-    //useEffect(() =>{
-    //    return () => setCancelled(true);
-   // },[])
     
     return {deleteDocument,response}
 }

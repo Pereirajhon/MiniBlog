@@ -2,10 +2,8 @@ import {useState, useEffect} from 'react'
 import { useAuthentication } from '../../Hook/useAuthentication'
 import styles from "./Cadastro.module.css"
 
-
 const Cadastro = () => {
 
-  //const [user, setUser] = useState('')
   const [displayName, setDisplayName] = useState('')
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

@@ -12,9 +12,7 @@ export const useFetchDocuments = (docCollection, search= null, uid= null)=> {
 
     const [documents, setDocuments] = useState(null);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(null)
-
-    //deal with memory leak
+    const [loading, setLoading] = useState(false)
     const [cancelled, setCancelled] = useState(false);
 
     useEffect(() => {
@@ -39,7 +37,7 @@ export const useFetchDocuments = (docCollection, search= null, uid= null)=> {
                     q= await query(collectionRef, orderBy('createdAt', 'desc'));
                 }
 
-                await onSnapshot(q,(querySnapshot)=>{
+                await onSnapshot(q,(querySnapshot)=> {
                     setDocuments(
                         querySnapshot.docs.map((doc) =>({
                             id: doc.id,

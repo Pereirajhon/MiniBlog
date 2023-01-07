@@ -8,10 +8,8 @@ import { useDeleteDocument } from "../../Hook/useDeleteDocument";
 const Dashboard = () => {
   const {user} = useAuthValue()
   const uid = user.uid;
- // const [excluir, setExcluir] = useState(null)
 
   const {deleteDocument, response} = useDeleteDocument("posts");
-
   const {documents:posts} = useFetchDocuments('posts', null, uid);
 
 
