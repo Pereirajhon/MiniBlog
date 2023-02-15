@@ -9,7 +9,7 @@ const Search = () => {
   const query = useQuery()
   const search = query.get('q');
 
-  const {documents:posts} = useFetchDocuments('posts',search);
+  const {data: posts} = useFetchDocuments('posts', search);
 
   return (
     <div className={styles.search_container}>

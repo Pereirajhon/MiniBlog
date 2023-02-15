@@ -25,7 +25,7 @@ function App() {
 
   const loadingUser = user === undefined ;
 
-  useEffect(()=>{
+  useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user)
     })
@@ -35,7 +35,7 @@ function App() {
     return <p>Carregando...</p>
   }
 
-  
+
   return (
     <div className="App">
       <AuthProvider value={{user}} >

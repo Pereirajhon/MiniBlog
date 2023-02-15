@@ -1,32 +1,15 @@
 import { db } from "../firebase/config";
-import { useEffect, useState } from "react";
 import {doc, getDoc }  from "firebase/firestore"
+import {useQuery} from'react-query'
 
-export const useFetchDocument = (docCollection, id) =>{
-    const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(null)
-    const [document, setDocument] = useState(null)
+export const useFetchDocument = (docCollection, id) => {
 
-    useEffect(() => {
-        async function loadDocument(){
+    const {data, isError, error, isLoading} = useQuery([docCollection, id], async() => {
+        const docRef = doc(db, docCollection, id)
+        const docSnap = await getDoc(docRef)
 
-            setLoading(true);
-
-            try {
-                const docRef = await doc(db,docCollection, id)
-                const docSnap = await getDoc(docRef)
-                setDocument(docSnap.data())
-
-            } catch(error){
-                console.log(error)
-                setError(error.message)
-            }
-            setLoading(false)
-        }
-        loadDocument()
-    },[docCollection,id])
-
-    console.log(document)
-
-    return {document, loading, error}
+        return docSnap.data()
+    })
+    
+    return { data, isLoading,isError ,error}
 }
