@@ -1,87 +1,105 @@
-import {useState, useEffect} from 'react'
 import { useAuthentication } from '../../Hook/useAuthentication'
 import styles from "./Cadastro.module.css"
 
+import {useForm} from 'react-hook-form'
+import {yupResolver} from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+
 const Cadastro = () => {
+  const {createUser} = useAuthentication();
 
-  const [displayName, setDisplayName] = useState('')
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [error, setError] = useState('')
+  const registerFormSchema = yup.object().shape({
+    displayName: yup.string().required('Nome obrigatório'),
+    email: yup.string().required('E-mail obrigatório').email('E-mail invalido'),
+    password: yup.string().required('Senha obrigatória')
+    .min(6,'Senha deve ter no minimo 6 caracteres!'),
+    confirmPassword: yup.string().oneOf([yup.ref("password"), null],"As senhas precisam ser iguais!").required("A confirmação de senha é obrigatória")
+  })
+  
+  const {register, handleSubmit, formState:{errors}} = useForm({
+    resolver: yupResolver(registerFormSchema)
+  })
 
-  const {createUser, error: authError, loading} = useAuthentication();
 
-  async function handleSubmit(e){
-    e.preventDefault();
-    setError('')
-
-    const user = {
-      displayName,
-      email,
-      password,
-    }
+  const onSubmitData = handleSubmit(async(data) => {
     
-    if(password !== confirmPassword)setError("As senhas precisam ser iguais !") ;
+    createUser.mutateAsync(data)
+    console.log(data)
+    console.log(errors)
     
-    const res = await createUser(user)
-
-    console.log(res)
-  }
-
-  useEffect(() =>{
-    if(authError){
-      setError(authError)
-    }
-  },[authError])
+  })
 
   return (
     <div className={styles.cadastro}>    
-        <form onSubmit={handleSubmit}>
-          <h2>Cadastre-se </h2>
-          <p>Crie seu usuário e compartilhe suas histórias</p>
-            <label className={styles.label} >
-                <span>Nome:</span>
-                <input
-                type="text"
-                name="displayName" required
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)} placeholder="Insira seu Nome"
-                 />
-            </label>
-            <label>
-                <span>Email:</span>
-                <input
-                type="email"
-                name="email" required 
-                value={email}
-                onChange= {(e) => setEmail(e.target.value)} placeholder="Insira seu email"
-                 />
-            </label>
-            <label>
-                <span>Senha:</span>
-                <input type="password"
-                 name='password'
-                 value={password} required
-                 onChange={(e) => setPassword(e.target.value)}
-                 placeholder='Insira sua Senha' />
-            </label>
-            <label>
-                <span>Confirme sua senha</span>
-                <input type="password"
-                 name="confirmPassword" required
-                 value={confirmPassword}
-                 onChange={(e)=> setConfirmPassword(e.target.value)}
-                 placeholder="Confirme sua Senha" />
-            </label>
-             {!loading && ( 
-              <button className='btn'> Cadastrar</button>
-              )}
-              {loading && (
-                <button className='btn' disabled>aguarde...</button>
-              )}
-            {error && <p className='error'>{error}</p> }
-        </form>
+      <form onSubmit={onSubmitData}>
+        <h2>Cadastre-se </h2>
+        <p>Crie seu usuário e compartilhe suas histórias</p>
+          <label className={styles.label} >
+            <span>Nome: </span>
+            <input
+            {...register('displayName')}
+            error={errors?.displayName?.message}
+            type="text"
+            name="displayName" 
+            placeholder='Digite seu nome'
+              />
+            {errors?.displayName && (
+              <p className='error'> {errors?.displayName.message} </p>
+            )}
+          </label>
+          <label>
+            <span>Email:</span>
+            <input
+            {...register('email')}
+            error={errors?.email?.message}
+            type="email"
+            name="email" 
+            placeholder="Insira seu email"
+              />
+            {errors?.email && (
+              <p className='error'> {errors?.email.message} </p>
+            )}
+
+          </label>
+          <label>
+            <span> Senha:</span>
+            <input
+             {...register('password')}
+             error={errors?.password?.message} 
+             type="password"
+             name='password'
+             placeholder='Insira sua Senha' 
+            />
+            {errors?.password && (
+              <p className='error'>{errors?.password.message} </p>
+            )}
+            
+          </label>
+          <label >
+            <span>Confirme sua senha</span>
+            <input
+             {...register('confirmPassword')}
+             error={errors?.confirmPassword?.message}
+             type="password"
+             name="confirmPassword" 
+             placeholder="Confirme sua Senha"
+            />
+            {errors?.confirmPassword && (
+              <p className='error'> {errors?.confirmPassword.message} </p>
+            )}
+
+        </label>
+          {!createUser.isLoading && ( 
+          <button className='btn'> Cadastrar </button>
+          )}
+          {createUser.isLoading && (
+            <button className='btn' disabled>aguarde...</button>
+          )}
+
+        {createUser.isError && (
+          <p className='error'> Ocorreu um erro, por favor tente mais tarde !  </p> 
+        )}
+      </form>
     </div>
   )
 }

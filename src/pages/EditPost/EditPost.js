@@ -1,81 +1,63 @@
 import styles from './EditPost.module.css'
-import { useState, useEffect } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthValue } from "../../Context/AuthContext";
 import { useFetchDocument } from "../../Hook/useFetchDocument";
 import { useUpdateDocument } from '../../Hook/useUpdateDocument';
 
+import { useForm } from 'react-hook-form';
+
 const EditPost = () => {
   const {id} = useParams();
-  const {document:post} = useFetchDocument('posts', id);
+  const {data: post, isLoading, isError, error} = useFetchDocument('posts', id);
 
-
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
-  const [body, setBody] = useState("");
-  const [tags, setTags] = useState([]);
-  const [formError, setFormError] = useState("");
+  const {register, handleSubmit, formState:{errors}} = useForm({
+    defaultValues:{
+      title: post.title,
+      image: post.image,
+      body: post.body,
+      tags: post.tags
+    }
+  });
 
   const { user } = useAuthValue();
 
   const navigate = useNavigate();
 
-  const { updateDocument, response } = useUpdateDocument('posts');
+  const { updateData} = useUpdateDocument('posts', user);
 
-  useEffect(()=> {
-    if(post){
-      setTitle(post.title);
-      setBody(post.body);
-      setImage(post.image);
-      const textTags = post.tags.join(', ');
-      setTags(textTags)
-    }
-  },[post])
+  //useEffect(()=> {
+  //  if(post){
+  //    setTitle(post.title);
+   //   setBody(post.body);
+  //    setImage(post.image);
+  //    const textTags = post.tags.join(', ');
+  //    setTags(textTags)
+  //  }
+  //},[post])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormError("");
+  const onSubmit = handleSubmit(async(data) => {
 
-    // validate image
-    try {
-      new URL(image);
-    } catch (error) {
-      setFormError("A imagem precisa ser uma URL.");
-    }
+    new URL(post.image);
 
-    const tagsArray = tags.split(', ').map((tag) => tag.trim().toLowerCase());
+    const tagsArray = post.tags.split(', ').map((tag) => tag.trim().toLowerCase());
 
+    console.log(data);
 
-    if (!title || !image || !tags || !body) {
-      setFormError("Por favor, preencha todos os campos!");
-    }
+    const {title, image, body ,tags} = data
 
-    console.log({
+    const postEdit = {
       title,
       image,
       body,
-      tags: tagsArray,
-      uid: user.uid,
-      createdBy: user.displayName,
-    });
+      tags: tags ? tagsArray : tags
+    }
 
-    if(formError) return;
-    
-    const data = {
-      title,
-      image,
-      body,
-      uid: user.uid,
-      tags: tagsArray,
-      createdBy: user.displayName,
-    };
-
-    updateDocument(data, id)
+    updateData.mutate(postEdit, id)
 
     // redirect to home page
     navigate("/");
-  };
+  });
 
   return (
     <div className={styles.edit_post}>
@@ -83,16 +65,14 @@ const EditPost = () => {
         <>
           <h2>Editando post</h2>
           <p>Atualize o post como desejar !</p>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={onSubmit}>
           <label>
             <span>Título:</span>
             <input
               type="text"
-              name="text"
-              required
+              {...register('title')}
+              name="title"
               placeholder="Pense num bom título..."
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
             />
           </label>
           
@@ -102,42 +82,35 @@ const EditPost = () => {
             <span>URL da imagem:</span>
             <input
               type="text"
+              {...register('image')}
               name="image"
-              required
-              placeholder="Insira uma imagem que representa seu post"
-              onChange={(e) => setImage(e.target.value)}
-              value={image}
             />
           </label>
           <label>
             <span>Conteúdo:</span>
             <textarea
+              {...register('body')}
               name="body"
-              required
               placeholder="Insira o conteúdo do post"
-              onChange={(e) => setBody(e.target.value)}
-              value={body}
             ></textarea>
           </label>
           <label>
             <span>Tags:</span>
             <input
               type="text"
+              {...register('tags')}
               name="tags"
-              required
               placeholder="Insira as tags separadas por vírgula"
-              onChange={(e) => setTags(e.target.value)}
-              value={tags}
             />
           </label>
-          {!response.loading && <button className="btn">Editar post</button>}
-          {response.loading && (
+          <button type='submit' className="btn">Editar post</button>
+          {isLoading && (
             <button className="btn" disabled>
               Aguarde...
             </button>
           )}
-          {(response.error || formError) && (
-            <p className="error">{response.error || formError}</p>
+          {(isError || errors) && (
+            <p className="error">{error}</p>
           )}
         </form>
         </>

@@ -1,21 +1,22 @@
 import styles from "./Home.module.css";
 import {Link, useNavigate} from "react-router-dom";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useFetchDocuments } from "../../Hook/useFetchDocuments";
 import PostsDetail from "../../components/PostsDetail";
 
 const Home = () => {
-  const [query, setQuery] = useState('')
-  const {documents:posts, loading} = useFetchDocuments("posts");
+const [query, setQuery] = useState('')
+  const {data: posts, isLoading} = useFetchDocuments("posts");
   const navigate = useNavigate();  
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault()
 
     if(query){
       return navigate(`/search?q=${query}`);
     }
-  }
+
+  },[navigate, query])
 
   return (
     <div className={styles.home}>
@@ -28,17 +29,19 @@ const Home = () => {
           <button className="btn btn-dark">Buscar</button> 
         </form>
         <div className="post-list">
-          {loading && <p>Carregando...</p> }
-          {posts && posts.length === 0 && (
+          {isLoading && <p>Carregando...</p> }
+          {(posts && posts.length === 0) && (
             <div className={styles.noposts}>
               <h1>Posts...</h1>
               <p>Posts não encontrado</p>
               <Link to="/posts/create">
                 <button className="btn"> Criar primeiro post </button>
               </Link>   
-            </div> )}
-            
-            {posts && posts.map((post)=>(<PostsDetail key={post.id} post={post} />))}
+            </div>
+          )} 
+          {posts && posts.map((post) => (
+            <PostsDetail key={post.id} post={post} />
+          ))}
            
         </div>
         

@@ -8,7 +8,8 @@
 }
 
 .post_container img{
-    max-width: 100%;
+    max-width: 80%;
+    width: 100%
 }
 
 .post_container .post_tags{
